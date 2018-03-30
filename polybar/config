@@ -46,9 +46,9 @@ font-0 = Envy Code R:pixelsize=13;4
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = FontAwesome:pixelsize=14:;4
 
-modules-left = ewmh
+modules-left = ewmh xbacklight volume
 modules-center =
-modules-right = memory cpu filesystem xbacklight volume battery date powermenu
+modules-right = memory cpu filesystem battery date powermenu
 
 tray-position = right
 tray-padding = 2
