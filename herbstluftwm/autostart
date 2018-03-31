@@ -180,6 +180,17 @@ hc spawn compton
 hc spawn xautolock -time 10 -locker blurlock
 hc spawn ~/.config/herbstluftwm/startpanel.sh
 
+pkill stalonetray
+pkill nm-applet
+pkill volumeicon
+
+sleep 3
+# Tray
+
+hc spawn stalonetray
+hc spawn nm-applet
+hc spawn volumeicon
+
 hc keybind $Mod-n set frame_gap 0
 hc keybind $Mod-g set frame_gap 15
 
