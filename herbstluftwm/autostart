@@ -28,11 +28,15 @@ hc keybind $Mod-d spawn rofi -show run
 hc keybind $Mod-F11 spawn pactl set-sink-volume 0 -5%
 hc keybind $Mod-F12 spawn pactl set-sink-volume 0 +5%
 
+# For display controls - either laptop, home or launch arandr
+hc keybind $Mod+F10 spawn ~/.config/herbstluftwm/rofi-display.sh
+
 # Keybinds for programs
 hc keybind $Mod-F3 spawn firefox
 hc keybind $Mod-F2 spawn pcmanfm
 hc keybind $Mod-t spawn compton
 hc keybind $Mod-Shift-t spawn pkill compton
+hc keybind $Mod-Shift-e spawn emacs
 
 # basic movement
 # focusing clients
@@ -74,8 +78,8 @@ hc keybind $Mod-Control-Up      resize up +$resizestep
 hc keybind $Mod-Control-Right   resize right +$resizestep
 
 # tags
-tag_names=( {1..6} )
-tag_keys=( {1..6} 0 )
+tag_names=( {1..9} )
+tag_keys=( {1..9} 0 )
 
 hc rename default "${tag_names[0]}" || true
 for i in ${!tag_names[@]} ; do
@@ -175,7 +179,7 @@ hc set_monitors 1920x1052+0+28
 
 # Backgrounds and term colors
 hc spawn xrdb ~/.Xresources
-hc spawn feh --bg-fill ~/Pictures/.Wallpapers/selected.jpg
+hc spawn feh --bg-fill ~/Pictures/.Wallpapers/selected*
 hc spawn compton
 hc spawn xautolock -time 10 -locker blurlock
 hc spawn ~/.config/herbstluftwm/startpanel.sh
