@@ -31,3 +31,4 @@ export PS1="\[\e[36m\][\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[36m\]@\[\e[m\]\[\e[32m\]
 alias vi=vim
 alias cdce='cd ~/src/cedille'
 alias cdp='cd ~/src/perso'
+alias lt='ls -lrt'
