@@ -19,7 +19,7 @@ secondary = #8ec07c
 alert = #cc241d
 
 [bar/example]
-;monitor = ${env:MONITOR:HDMI-1}
+monitor = ${env:MONITOR:}
 width = 96%
 height = 20
 offset-x = 2%
@@ -89,7 +89,7 @@ label-active-foreground = #83a598
 ;   %icon%
 ;   %index%
 ; Default: %icon%  %name%
-label-occupied = %icon%
+label-occupied = " "
 label-occupied-underline = #555555
 
 ; Available tokens:
@@ -165,7 +165,7 @@ index-sort = true
 wrapping-scroll = false
 
 ; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+pin-workspaces = true
 
 label-mode-padding = 2
 label-mode-foreground = #000
