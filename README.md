@@ -4,7 +4,7 @@ This is my current arch-linux configuration as of APRIL 2018
 
 ### How to install
 
-To get all the programs that I use frequently, juste cat the dependencies list onto
+To get all the programs that I use frequently, just cat the dependencies list onto
  your package manager's `install` command like this:
 
 ``` bash
