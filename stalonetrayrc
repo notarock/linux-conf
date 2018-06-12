@@ -2,10 +2,10 @@ background "#282828"
 decorations none
 dockapp_mode none
 fuzzy_edges 0
-geometry 1x1+930 # position x:930 y:0
-grow_gravity NW
-icon_gravity NW
-icon_size 24
+geometry 1x1+1900 # position x:930 y:0
+grow_gravity NE
+icon_gravity NE
+icon_size 14
 log_level err
 kludges force_icons_size
 max_geometry 0x0
