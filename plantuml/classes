@@ -1,0 +1,10 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam class {
+         BorderColor Navy
+         ArrowColor Navy
+         BackgroundColor WhiteSmoke
+}
+
+@enduml
