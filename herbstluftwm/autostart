@@ -21,7 +21,7 @@ Mod=Mod4   # Use the super key as the main modifier
 hc keybind $Mod-Shift-c quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-q close
-hc keybind $Mod-Return spawn urxvt # use your $TERMINAL with xterm as fallback
+hc keybind $Mod-Return spawn alacritty # use your $TERMINAL with xterm as fallback
 hc keybind $Mod-d spawn rofi -show run
 
 # For volume controls and stuff
@@ -30,6 +30,8 @@ hc keybind $Mod-F12 spawn pactl set-sink-volume 0 +5%
 
 # For display controls - either laptop, home or launch arandr
 hc keybind $Mod+F10 spawn ~/.config/herbstluftwm/rofi-display.sh
+# For brigthness control
+hc keybind $Mod+F9 spawn ~/.config/herbstluftwm/brightness.sh
 
 # Keybinds for programs
 hc keybind $Mod-F3 spawn firefox
