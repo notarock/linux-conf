@@ -1,0 +1,52 @@
+;; -*- mode: lisp; -*-
+;;; init.lisp --- Vital settings
+
+;; Copyright © 2018, 2018 Roch D'amour
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; Thansk to everyone who made their stumpwm config public.
+;; Without you, this wouldn't be a thing :)
+
+;;; Code:
+
+(in-package :stumpwm)
+
+;;;; change the prefix key to something else
+(set-prefix-key (kbd "s-c"))
+
+;;;; Default terminal emulator
+(setq *terminal* "alacritty")
+
+;;;; Default Browser
+(setq *browser* "firefox")
+
+;;;; top-map Movements
+(define-key *top-map* (kbd "s-h") "move-focus left")
+(define-key *top-map* (kbd "s-j") "move-focus down")
+(define-key *top-map* (kbd "s-k") "move-focus up")
+(define-key *top-map* (kbd "s-l") "move-focus right")
+
+;;;; top-map splits
+(define-key *top-map* (kbd "s-u") "vsplit")
+(define-key *top-map* (kbd "s-o") "hsplit")
+(define-key *top-map* (kbd "s-r") "remove")
+
+
+(define-key *top-map* (kbd "s-RET") "run-shell-command exec alacritty")
+(define-key *top-map* (kbd "s-d") "run-shell-command rofi -show run")
+
+;;; init.lisp ends here
