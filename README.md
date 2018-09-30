@@ -1,10 +1,10 @@
-# ARCH-CONF
+# Linux dotfiles
 
-This is my current arch-linux configuration as of APRIL 2018
+This is my current configuration as of Septembre 2018
 
 ### How to install
 
-To get all the programs that I use frequently, just cat the dependencies list onto
+To get all the programs that I use frequently, just cat the dependencies list into
  your package manager's `install` command like this:
 
 ``` bash
@@ -18,7 +18,11 @@ sudo apt-get install $(cat dependencies)
 you get the idea ;).
 
 
-## Screenshot (Last updated 
+## Screenshot (Last updated Sept 2018)
+
+#### Septembre 2018
+
+![sept2018](https://user-images.githubusercontent.com/25652765/46253723-05975900-c451-11e8-97bd-9ec2a6856c34.png)
 
 <details>
   <summary>Older screenshot</summary>
@@ -36,9 +40,3 @@ you get the idea ;).
 ![aout2018](https://user-images.githubusercontent.com/25652765/43874597-a513522e-9b5a-11e8-9304-60aa2d5958b6.png)
 
 </details>
-
-#### Septembre 2018
-
-![sept2018](https://user-images.githubusercontent.com/25652765/46253723-05975900-c451-11e8-97bd-9ec2a6856c34.png)
-
-
