@@ -1,0 +1,52 @@
+# Sample .bashrc for SuSE Linux
+# Copyright (c) SuSE GmbH Nuernberg
+
+# There are 3 different types of shells in bash: the login shell, normal shell
+# and interactive shell. Login shells read ~/.profile and interactive shells
+# read ~/.bashrc; in our setup, /etc/profile sources ~/.bashrc - thus all
+# settings made here will also take effect in a login shell.
+#
+# NOTE: It is recommended to make language settings in ~/.profile rather than
+# here, since multilingual X sessions would not work properly if LANG is over-
+# ridden in every subshell.
+
+# Some applications read the EDITOR variable to determine your favourite text
+# editor. So uncomment the line below and enter the editor of your choice :-)
+#export EDITOR=/usr/bin/vim
+#export EDITOR=/usr/bin/mcedit
+
+# For some news readers it makes sense to specify the NEWSSERVER variable here
+#export NEWSSERVER=your.news.server
+
+# If you want to use a Palm device with Linux, uncomment the two lines below.
+# For some (older) Palm Pilots, you might need to set a lower baud rate
+# e.g. 57600 or 38400; lowest is 9600 (very slow!)
+#
+#export PILOTPORT=/dev/pilot
+#export PILOTRATE=115200
+
+test -s ~/.alias && . ~/.alias || true
+
+[[ $- != *i* ]] && return
+
+alias ls='ls --color=auto'
+
+# get current branch in git repo
+
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+export PS1="\[\e[36m\][\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[36m\]@\[\e[m\]\[\e[32m\]\h\[\e[m\] \[\e[33m\]\w\[\e[m\]\[\e[36m\]]\[\e[m\]\[\e[31m\]\[\e[m\]\\[\e[31m\]\$( parse_git_branch )\e[m\]\e[34m\]\\$\[\e[m\] "
+
+alias vi=vim
+alias cdsrc='cd ~/src/'
+alias lt='ls -lrt'
+
+alias plantuml='java -jar ~/.emacs.d/utilities/plantuml.jar $1'
+
+unset GIT_ASKPASS
+unset SSH_ASKPASS
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+

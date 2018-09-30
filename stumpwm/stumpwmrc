@@ -1,0 +1,216 @@
+;; -*- mode: lisp; -*-
+;;; config --- Vital settings
+
+;; Copyright © 2018, 2018 Roch D'amour
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; Thansk to everyone who made their stumpwm config public.
+;; Without you, this wouldn't be a thing :)
+
+;;; Code:
+
+
+;;; Mouse focus policy
+(setf *mouse-focus-policy* :sloppy)
+
+;;;; change the prefix key to something else
+(set-prefix-key (kbd "s-c"))
+
+;;;; Default terminal emulator
+(setq *terminal* "alacritty")
+
+;;;; Default Browser
+(setq *browser* "firefox")
+
+(setf
+ *mode-line-background-color* "#262626")
+
+(setf *colors* (list "#272822"      ; 0 black
+                     "#F92672"      ; 1 Red
+                     "#A6E22E"      ; 2 Green
+                     "#fd971f"      ; 3 Yellow
+                     "#66D9EF"      ; 4 Blue
+                     "#AE81FF"      ; 5 Magenta
+                     "#A1EFE4"      ; 6 Cyan
+                     "#ECEFF4"      ; 7 White
+                     "#a59f84"))    ; 8 Gray
+
+;;;; top-map Movements
+(define-key *top-map* (kbd "s-h") "move-focus left")
+(define-key *top-map* (kbd "s-j") "move-focus down")
+(define-key *top-map* (kbd "s-k") "move-focus up")
+(define-key *top-map* (kbd "s-l") "move-focus right")
+
+(define-key *top-map* (kbd "s-H") "move-window left")
+(define-key *top-map* (kbd "s-J") "move-window down")
+(define-key *top-map* (kbd "s-K") "move-window up")
+(define-key *top-map* (kbd "s-L") "move-window right")
+
+;;;; top-map splits
+(define-key *top-map* (kbd "s-u") "vsplit")
+(define-key *top-map* (kbd "s-o") "hsplit")
+(define-key *top-map* (kbd "s-r") "remove")
+
+(define-key *top-map* (kbd "s-RET") "run-shell-command exec alacritty")
+(define-key *top-map* (kbd "s-d") "run-shell-command rofi -show run")
+(define-key *top-map* (kbd "s-f") "fullscreen")
+
+
+(in-package :stumpwm)
+(load "/home/notarock/src/slime/swank-loader.lisp")
+
+(require 'swank)
+(swank-loader:init)
+(swank:create-server :port 4004
+                     :style swank:*communication-style*
+                     :dont-close t)
+
+(set-module-dir
+ (pathname-as-directory (concat (getenv "HOME") "/src/stumpwm/stumpwm-contrib/util")))
+
+(run-shell-command "volumeicon")
+(run-shell-command "xfce4-power-manager")
+(run-shell-command "nm-applet")
+(run-shell-command "blueman-applet")
+(run-shell-command "feh --bg-fill /home/notarock/Pictures/wallpaper/selected*")
+
+(run-shell-command "xset b off")
+
+(load-module "swm-gaps")
+(load-module "stumptray")
+
+(setf swm-gaps:*outer-gaps-size* 5)
+(setf swm-gaps:*inner-gaps-size* 10)
+
+(swm-gaps:toggle-gaps)
+
+;; turn on/off the mode line for the current head only.
+(stumpwm:toggle-mode-line (stumpwm:current-screen)
+                          (stumpwm:current-head))
+
+
+;; obtain battery status
+;;   formatted as +XX% when    charging
+;;                -XX% when discharging
+;;                100% when full
+;; (setf battery-status-command
+;;   "acpi -b |
+;;    awk -F '[ ,]' '{printf \"%s%s\", $3, $5}' |
+;;    sed s/Discharging/\-/ |
+;;    sed s/Unknown// |
+;;    sed s/Full// |
+;;    sed s/Charging/+/ |
+;;    awk '{printf \"%4s\", $1}' ")
+;; 
+;; (setf vol-status-command
+;;   "amixer sget Master |
+;;    awk -F'[][]' '/dB/ { printf \"%s\", $6 }' |
+;;    sed 's/on/Vol\\./' |
+;;    sed 's/off/Mut\\./'")
+;; 
+;; (setf vol-percent-command
+;; "amixer sget Master | grep \% | awk '{print $5}' | head -n 1 | tr -d '\n'"
+;; )
+;; 
+;; (setf *time-modeline-string*
+;;       "%a %b %e %k:%M")
+;; 
+;; (setf *screen-mode-line-format*
+;;       (list "[^B%n^b] %W^>"
+;;             '(:eval (run-shell-command battery-status-command t))
+;;             " << "
+;;             '(:eval (run-shell-command vol-status-command t))
+;;             " << "
+;;             '(replace-regexp-int-string "\n\\'" "" (:eval (run-shell-command vol-percent-command t)))
+;;             " << %d"
+;;             "     "))
+;; 
+;; (setf *mode-line-timeout* 3)
+
+(defun show-ip-address ()
+  (let ((ip (run-shell-command "ifconfig wlp3s0 | grep 'inet ' | cut -d: -f2 | awk '{ print $2}'" t)))
+    (substitute #\Space #\Newline ip)))
+
+(defun show-battery-charge ()
+  (let ((raw-battery (run-shell-command "acpi | cut -d, -f2" t)))
+    (substitute #\Space #\Newline raw-battery)))
+
+(defun show-hostname ()
+  (let ((host-name (run-shell-command "cat /etc/hostname" t)))
+    (substitute #\Space #\Newline host-name)))
+
+(defun show-battery-state ()
+  (let ((raw-battery (run-shell-command "acpi | cut -d: -f2 | cut -d, -f1" t)))
+    (substitute #\Space #\Newline raw-battery)))
+
+(defun show-kernel ()
+  (let ((ip (run-shell-command "uname -r" t)))
+    (substitute #\Space #\Newline ip)))
+
+
+;; Set model-line format
+;; Show time, cpu usage and network traffic in the modeline
+(setf *screen-mode-line-format*
+      (list
+       "^b^3  [^B%n^b]"
+       "^b^1 >> "
+       "^B^8%W"
+       "^b^1 >> "
+       "^>"
+       "^b^1<<"
+       '"^b^2 notarock^b^4@^b^2" '(:eval (show-hostname))
+       "^b^1<<"
+       "^b^3" '(:eval (show-battery-charge))
+       "^b^1<<"
+       "^b^7 " '(:eval (show-ip-address))
+       "^b^1<<"
+       "^B^7 " '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:]" t))
+       " ^b^1<< "
+       "        "))
+
+(update-color-map (current-screen))
+
+(stumptray:stumptray)
+
+
+(define-key *top-map* (kbd "s-1") "gselect 1")
+(define-key *top-map* (kbd "s-2") "gselect 2")
+(define-key *top-map* (kbd "s-3") "gselect 3")
+(define-key *top-map* (kbd "s-4") "gselect 4")
+(define-key *top-map* (kbd "s-4") "gselect 4")
+(define-key *top-map* (kbd "s-5") "gselect 5")
+(define-key *top-map* (kbd "s-6") "gselect 6")
+(define-key *top-map* (kbd "s-7") "gselect 7")
+(define-key *top-map* (kbd "s-8") "gselect 8")
+(define-key *top-map* (kbd "s-9") "gselect 9")
+(define-key *top-map* (kbd "s-0") "vgroups")
+
+
+;; DEFAUT = 1
+(gnewbg "emacs") ;; 2
+(gnewbg "terms") ;; 3
+(gnewbg "music") ;; 4
+(gnewbg "misc") ;; 5
+(gnewbg-float "float") ;; 6
+(gnewbg "messenger") ;; 7
+(gnewbg "social") ;; 8
+(gnewbg "mail") ;; 9
+
+
+(define-key *top-map* (kbd "s-m") "gmove")
+
+;;; config ends here
