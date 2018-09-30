@@ -22,7 +22,7 @@ you get the idea ;).
 
 #### Septembre 2018
 
-![sept2018](https://user-images.githubusercontent.com/25652765/46253723-05975900-c451-11e8-97bd-9ec2a6856c34.png)
+![sept2018.png](https://raw.githubusercontent.com/notarock/linux-conf/master/screenshot/sept2018.png)
 
 <details>
   <summary>Older screenshot</summary>
