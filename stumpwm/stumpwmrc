@@ -1,5 +1,4 @@
 ;; -*- mode: lisp; -*-
-;;; config --- Vital settings
 
 ;; Copyright © 2018, 2018 Roch D'amour
 
@@ -31,13 +30,45 @@
 (set-prefix-key (kbd "s-c"))
 
 ;;;; Default terminal emulator
-(setq *terminal* "alacritty")
+(setq *terminal* "urxvt")
+
+(defcommand thunderbird () ()
+            "Run-or-Raise Thunderbird"
+            (run-or-raise "thunderbird" '(:class "Thunderbird")))
+
+(defcommand firefox () ()
+            "Run-or-Raise Firefox"
+            (run-or-raise "firefox" '(:class "Firefox")))
+
+(defcommand emacs () ()
+            "Run-or-Raise Emacs"
+            (run-or-raise "emacs" '(:class "Emacs")))
+
+(define-key *root-map* (kbd "f")            "firefox")
+(define-key *root-map* (kbd "C-f")            "firefox")
+(define-key *root-map* (kbd "t")            "thunderbird")
+(define-key *root-map* (kbd "t")            "thunderbird")
+
+
+
+;; Frames
+(loop for (vi-key name) in '(("k" "up")
+                             ("j" "down")
+                             ("h" "left")
+                             ("l" "right"))
+      do (let ((key-combo (format nil "s-~A" vi-key))
+               (shifted-key-combo (format nil "s-~A" (string-upcase vi-key))))
+           (define-key *top-map* (kbd key-combo)
+                       (format nil "move-focus ~A" name))
+           (define-key *top-map* (kbd shifted-key-combo)
+                       (format nil "move-window ~A" name))))
+
 
 ;;;; Default Browser
 (setq *browser* "firefox")
 
-(setf
- *mode-line-background-color* "#262626")
+(setf *startup-message*
+      "Get shit done.")
 
 (setf *colors* (list "#272822"      ; 0 black
                      "#F92672"      ; 1 Red
@@ -47,28 +78,42 @@
                      "#AE81FF"      ; 5 Magenta
                      "#A1EFE4"      ; 6 Cyan
                      "#ECEFF4"      ; 7 White
-                     "#a59f84"))    ; 8 Gray
+                     "#a59f84"      ; 8 Gray
+                     "#262626"))    ; 9 bg
 
-;;;; top-map Movements
-(define-key *top-map* (kbd "s-h") "move-focus left")
-(define-key *top-map* (kbd "s-j") "move-focus down")
-(define-key *top-map* (kbd "s-k") "move-focus up")
-(define-key *top-map* (kbd "s-l") "move-focus right")
+(setf
+ *mode-line-background-color* (nth 9 *colors*))
 
-(define-key *top-map* (kbd "s-H") "move-window left")
-(define-key *top-map* (kbd "s-J") "move-window down")
-(define-key *top-map* (kbd "s-K") "move-window up")
-(define-key *top-map* (kbd "s-L") "move-window right")
+
+(set-fg-color         (nth 7 *colors*))
+(set-bg-color         (nth 0 *colors*))
+(set-border-color     (nth 6 *colors*))
+(set-focus-color      (nth 3 *colors* ))
+(set-unfocus-color    (nth 4 *colors* ))
+
+
+(setf
+  *maxsize-border-width*           2
+  *normal-border-width*            2
+  *window-border-style*            :thin
+  *transient-border-width*         2
+)
+
+(setf
+  *message-window-gravity*         :center
+  *timeout-wait*                   10
+  *input-window-gravity*           :center
+)
+
 
 ;;;; top-map splits
 (define-key *top-map* (kbd "s-u") "vsplit")
 (define-key *top-map* (kbd "s-o") "hsplit")
 (define-key *top-map* (kbd "s-r") "remove")
 
-(define-key *top-map* (kbd "s-RET") "run-shell-command exec alacritty")
+(define-key *top-map* (kbd "s-RET") "run-shell-command exec urxvt")
 (define-key *top-map* (kbd "s-d") "run-shell-command rofi -show run")
 (define-key *top-map* (kbd "s-f") "fullscreen")
-
 
 (in-package :stumpwm)
 (load "/home/notarock/src/slime/swank-loader.lisp")
@@ -93,53 +138,14 @@
 (load-module "swm-gaps")
 (load-module "stumptray")
 
-(setf swm-gaps:*outer-gaps-size* 5)
-(setf swm-gaps:*inner-gaps-size* 10)
+(setf swm-gaps:*outer-gaps-size* 0)
+(setf swm-gaps:*inner-gaps-size* 0)
 
 (swm-gaps:toggle-gaps)
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
                           (stumpwm:current-head))
-
-
-;; obtain battery status
-;;   formatted as +XX% when    charging
-;;                -XX% when discharging
-;;                100% when full
-;; (setf battery-status-command
-;;   "acpi -b |
-;;    awk -F '[ ,]' '{printf \"%s%s\", $3, $5}' |
-;;    sed s/Discharging/\-/ |
-;;    sed s/Unknown// |
-;;    sed s/Full// |
-;;    sed s/Charging/+/ |
-;;    awk '{printf \"%4s\", $1}' ")
-;; 
-;; (setf vol-status-command
-;;   "amixer sget Master |
-;;    awk -F'[][]' '/dB/ { printf \"%s\", $6 }' |
-;;    sed 's/on/Vol\\./' |
-;;    sed 's/off/Mut\\./'")
-;; 
-;; (setf vol-percent-command
-;; "amixer sget Master | grep \% | awk '{print $5}' | head -n 1 | tr -d '\n'"
-;; )
-;; 
-;; (setf *time-modeline-string*
-;;       "%a %b %e %k:%M")
-;; 
-;; (setf *screen-mode-line-format*
-;;       (list "[^B%n^b] %W^>"
-;;             '(:eval (run-shell-command battery-status-command t))
-;;             " << "
-;;             '(:eval (run-shell-command vol-status-command t))
-;;             " << "
-;;             '(replace-regexp-int-string "\n\\'" "" (:eval (run-shell-command vol-percent-command t)))
-;;             " << %d"
-;;             "     "))
-;; 
-;; (setf *mode-line-timeout* 3)
 
 (defun show-ip-address ()
   (let ((ip (run-shell-command "ifconfig wlp3s0 | grep 'inet ' | cut -d: -f2 | awk '{ print $2}'" t)))
