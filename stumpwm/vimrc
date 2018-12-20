@@ -10,7 +10,7 @@ set laststatus=2
 set encoding=utf-8
 
 " Set colorscheme
-autocmd VimEnter * colorscheme monokai 
+autocmd VimEnter * colorscheme base16-default-dark 
 
 " YouCompleteMe 
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -54,7 +54,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'akz92/vim-ionic2'
 Plug 'lilydjwg/colorizer'
 Plug 'alvan/vim-closetag'
-Plug 'crusoexia/vim-monokai'
+Plug 'chriskempson/base16-vim'
 Plug 'jwalton512/vim-blade'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'leafgarland/typescript-vim'

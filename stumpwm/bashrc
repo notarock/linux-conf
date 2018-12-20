@@ -28,6 +28,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+alias fini='notify-send "done with exit code "$?'
 alias plantuml='java -jar ~/.emacs.d/utilities/plantuml.jar $1'
 
 unset GIT_ASKPASS

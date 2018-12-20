@@ -18,7 +18,11 @@ sudo apt-get install $(cat dependencies)
 you get the idea ;).
 
 
-## Screenshot (Last updated Sept 2018)
+## Screenshot (Last updated december 2018)
+
+#### December 2018
+
+![dec2018.png](https://raw.githubusercontent.com/notarock/linux-conf/master/screenshot/dec2018.png)
 
 #### Septembre 2018
 

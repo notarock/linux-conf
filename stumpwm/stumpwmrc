@@ -1,4 +1,4 @@
-;; -*- mode: lisp; -*-
+; -*- mode: lisp; -*-
 
 ;; Copyright © 2018, 2018 Roch D'amour
 
@@ -30,7 +30,7 @@
 (set-prefix-key (kbd "s-c"))
 
 ;;;; Default terminal emulator
-(setq *terminal* "urxvt")
+(setq *terminal* "termite")
 
 (defcommand mailspring () ()
             "Run-or-Raise Mailspring"
@@ -70,26 +70,26 @@
 (setf *startup-message*
       "Get shit done.")
 
-(setf *colors* (list "#272822"      ; 0 black
-                     "#F92672"      ; 1 Red
-                     "#A6E22E"      ; 2 Green
-                     "#fd971f"      ; 3 Yellow
-                     "#66D9EF"      ; 4 Blue
-                     "#AE81FF"      ; 5 Magenta
-                     "#A1EFE4"      ; 6 Cyan
-                     "#ECEFF4"      ; 7 White
-                     "#a59f84"      ; 8 Gray
-                     "#262626"))    ; 9 bg
+(setf *colors* (list "#383838"      ; 0 black
+                     "#ab4642"      ; 1 Red
+                     "#a1b56c"      ; 2 Green
+                     "#f7ca88"      ; 3 Yellow
+                     "#7cafc2"      ; 4 Blue
+                     "#ba8baf"      ; 5 Magenta
+                     "#86c1b9"      ; 6 Cyan
+                     "#f8f8f8"      ; 7 White
+                     "#585858"      ; 8 Gray
+                     "#181818"))    ; 9 bg
 
 (setf
  *mode-line-background-color* (nth 9 *colors*))
 
 
 (set-fg-color         (nth 7 *colors*))
-(set-bg-color         (nth 0 *colors*))
+(set-bg-color         (nth 9 *colors*))
 (set-border-color     (nth 6 *colors*))
-(set-focus-color      (nth 3 *colors* ))
-(set-unfocus-color    (nth 4 *colors* ))
+(set-focus-color      (nth 1 *colors* ))
+(set-unfocus-color    (nth 9 *colors* ))
 
 
 (setf
@@ -111,32 +111,35 @@
 (define-key *top-map* (kbd "s-o") "hsplit")
 (define-key *top-map* (kbd "s-r") "remove")
 
-(define-key *top-map* (kbd "s-RET") "run-shell-command exec urxvt")
-(define-key *top-map* (kbd "s-d") "run-shell-command rofi -show run")
+(define-key *top-map* (kbd "s-RET") "run-shell-command exec termite")
+(define-key *top-map* (kbd "s-d") "run-shell-command rofi -theme ~/src/base16-rofi/themes/base16-default-dark.rasi -show run")
+
 (define-key *top-map* (kbd "s-f") "fullscreen")
 
 (in-package :stumpwm)
-(load "/home/notarock/src/slime/swank-loader.lisp")
+ (load "/home/notarock/src/slime/swank-loader.lisp")
 
-(require 'swank)
+(set-module-dir
+  (pathname-as-directory (concat (getenv "HOME") "/src/stumpwm-contrib/util")))
+
+(require :swank)
 (swank-loader:init)
 (swank:create-server :port 4004
                      :style swank:*communication-style*
                      :dont-close t)
 
-(set-module-dir
- (pathname-as-directory (concat (getenv "HOME") "/src/stumpwm/stumpwm-contrib/util")))
-
 (run-shell-command "volumeicon")
-(run-shell-command "xfce4-power-manager")
+;; (run-shell-command "xfce4-power-manager")
 (run-shell-command "nm-applet")
-(run-shell-command "blueman-applet")
+;; (run-shell-command "blueman-applet")
 (run-shell-command "feh --bg-fill /home/notarock/Pictures/wallpaper/selected*")
 
 (run-shell-command "xset b off")
 
 (load-module "swm-gaps")
 (load-module "stumptray")
+(load-module "end-session")
+(load-module "ttf-fonts")
 
 (setf swm-gaps:*outer-gaps-size* 0)
 (setf swm-gaps:*inner-gaps-size* 0)
@@ -147,51 +150,64 @@
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
                           (stumpwm:current-head))
 
-(defun show-ip-address ()
-  (let ((ip (run-shell-command "ifconfig wlp3s0 | grep 'inet ' | cut -d: -f2 | awk '{ print $2}'" t)))
-    (substitute #\Space #\Newline ip)))
+;; (defun show-ip-address ()
+;;   (let ((ip (run-shell-command "ifconfig wlp3s0 | grep 'inet ' | cut -d: -f2 | awk '{ print $2}'" t)))
+;;     (substitute #\Space #\Newline ip)))
 
-(defun show-battery-charge ()
-  (let ((raw-battery (run-shell-command "acpi | cut -d, -f2" t)))
-    (substitute #\Space #\Newline raw-battery)))
+;; (defun show-battery-charge ()
+;;   (let ((raw-battery (run-shell-command "acpi | cut -d, -f2" t)))
+;;     (substitute #\Space #\Newline raw-battery)))
 
-(defun show-hostname ()
-  (let ((host-name (run-shell-command "cat /etc/hostname" t)))
-    (substitute #\Space #\Newline host-name)))
+;; (defun show-hostname ()
+;;   (let ((host-name (run-shell-command "cat /etc/hostname" t)))
+;;     (substitute #\Space #\Newline host-name)))
 
-(defun show-battery-state ()
-  (let ((raw-battery (run-shell-command "acpi | cut -d: -f2 | cut -d, -f1" t)))
-    (substitute #\Space #\Newline raw-battery)))
+;; (defun show-battery-state ()
+;;   (let ((raw-battery (run-shell-command "acpi | cut -d: -f2 | cut -d, -f1" t)))
+;;     (substitute #\Space #\Newline raw-battery)))
 
-(defun show-kernel ()
-  (let ((ip (run-shell-command "uname -r" t)))
-    (substitute #\Space #\Newline ip)))
+;; (defun show-kernel ()
+;;   (let ((ip (run-shell-command "uname -r" t)))
+;;     (substitute #\Space #\Newline ip)))
 
+
+(set-module-dir
+  (pathname-as-directory (concat (getenv "HOME") "/src/stumpwm-contrib/modeline")))
+
+(load-module "disk")
+(load-module "wifi")
+(load-module "cpu")
+(load-module "mem")
+(load-module "battery-portable")
 
 ;; Set model-line format
 ;; Show time, cpu usage and network traffic in the modeline
+(setf *separator* "^b^1≡")
 (setf *screen-mode-line-format*
       (list
-       "^b^3  [^B%n^b]"
-       "^b^1 >> "
-       "^B^8%W"
-       "^b^1 >> "
-       "^>"
-       "^b^1<<"
-       '"^b^2 notarock^b^4@^b^2" '(:eval (show-hostname))
-       "^b^1<<"
-       "^b^3" '(:eval (show-battery-charge))
-       "^b^1<<"
-       "^b^7 " '(:eval (show-ip-address))
-       "^b^1<<"
-       "^B^7 " '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:]" t))
-       " ^b^1<< "
-       "        "))
+       "^b^3 [^B%n^b]"    ;; Group
+       " " *separator*
+       "^B^9 %W"           ;; Windows
+       " " *separator*
+       "^>"               ;; Other Side
+       *separator*
+       "^b^3 %c%t "      ;; CPU Info
+       *separator*
+       "^b^4 %M"
+       *separator*
+       "^b^6 %D"
+       *separator*
+       "^b^2 %I"
+       " " *separator*
+       "^b^3 %B "
+       *separator*
+       "^B^7 " '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:] " t))
+       " " *separator*
+       "^b^88        "))
 
 (update-color-map (current-screen))
 
 (stumptray:stumptray)
-
 
 (define-key *top-map* (kbd "s-1") "gselect 1")
 (define-key *top-map* (kbd "s-2") "gselect 2")
@@ -205,6 +221,8 @@
 (define-key *top-map* (kbd "s-9") "gselect 9")
 (define-key *top-map* (kbd "s-0") "vgroups")
 
+;; Quit menu
+(define-key *top-map* (kbd "s-)") "end-session")
 
 ;; DEFAUT = 1
 (gnewbg "emacs") ;; 2
@@ -219,5 +237,9 @@
 
 (define-key *top-map* (kbd "s-m") "gmove")
 
+(xft:cache-fonts)
+(set-font (make-instance 'xft:font :family "Terminus (TTF)" :subfamily "Medium" :size 14))
+
+
+
 ;;; config ends here
-lj
