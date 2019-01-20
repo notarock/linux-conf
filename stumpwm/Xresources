@@ -59,3 +59,17 @@ URxvt.scrollBar: false
 *color19:      base02
 *color20:      base04
 *color21:      base06
+
+! Enable the extended coloring options
+rofi.color-enabled: true
+
+! Property Name     BG       Border   Separator
+rofi.color-window:  #282828, #282828, #181818
+
+! Property Name     BG       FG       BG-alt   Head-BG  Head-FG
+rofi.color-normal:  #282828, #d8d8d8, #282828, #282828, #f8f8f8
+rofi.color-active:  #282828, #7cafc2, #282828, #282828, #7cafc2
+rofi.color-urgent:  #282828, #ab4642, #282828, #282828, #ab4642
+
+! Set the desired separator style
+rofi.separator-style: solid

@@ -1,0 +1,234 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;==========================================================
+
+[colors]
+accent-dark = #181818
+accent-light = #A1b56c
+background = ${colors.accent-dark}
+background-tray = ${colors.accent-dark}
+foreground = #f8f8f8
+foreground-alt = ${colors.accent-light}
+alert = #ab4642
+
+[global/wm]
+margin-top = 2
+margin-bottom = 2
+
+[bar/screen]
+monitor = eDP1
+width = 100%
+height = 24
+offset-x = 0
+offset-y = 0
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+overline-size = 1
+overline-color = ${colors.background}
+underline-size = 2
+underline-color = ${colors.background}
+
+border-top-size = 0
+border-top-color = ${colors.background}
+border-bottom-size = 0
+border-bottom-color = ${colors.background}
+
+padding-left = 0
+padding-right = 0
+module-margin-left = 2
+module-margin-right = 2
+
+font-0 = "Terminux (TTF):size=9;1"
+font-1 = "FontAwesome:pixelsize=8;1"
+
+modules-left = stumpwmgroups
+modules-center = date battery-combined-shell
+modules-right = cpu memory keyboard wlan alsa
+
+tray-position = right
+tray-padding = 4
+tray-background = ${colors.background-tray}
+
+enable-ipc = true
+
+; [module/muunreads]
+; type = custom/script
+; interval = 10
+; format = <label>
+; format-prefix = " "
+; format-prefix-foreground = ${colors.foreground-alt}
+; exec = ~/.config/polybar/mu-unreads.sh
+
+[module/keyboard]
+type = internal/xkeyboard
+
+; List of indicators to ignore
+blacklist-0 = num lock
+blacklist-1 = scroll lock
+blacklist-2 = caps lock
+
+; Available tags:
+;   <label-layout> (default)
+;   <label-indicator> (default)
+format = <label-layout> <label-indicator>
+format-spacing = 0
+
+; Available tokens:
+;   %layout%
+;   %name%
+;   %number%
+; Default: %layout%
+label-layout = %name%
+
+; Available tokens:
+;   %name%
+; Default: %name%
+label-indicator = %name%
+label-indicator-padding = 2
+
+; [module/compton]
+; type = custom/script
+; format-prefix = "CMPTN "
+; format-prefix-foreground = ${colors.foreground-alt}
+; exec = ~/.config/polybar/compton.sh
+; click-left = ~/.config/polybar/compton-toggle.sh
+; interval = 5
+
+; [module/powermenu]
+; type = custom/menu
+
+; label-open = 
+; label-open-foreground = ${colors.foreground}
+; label-close = " "
+; label-close-foreground = ${colors.foreground-alt}
+
+; menu-0-0 = 
+; menu-0-0-exec = poweroff
+; menu-0-1 = 
+; menu-0-1-exec = reboot
+; menu-0-2 = 
+; menu-0-2-exec = lock-suspend
+
+; menu-0-0-padding = 1
+; menu-0-1-padding = 1
+; menu-0-2-padding = 1
+
+; [module/redshift]
+; type = custom/script
+; interval = 5
+; format-prefix = "RDSFT "
+; format-prefix-foreground = ${colors.foreground-alt}
+; exec = ~/.config/polybar/redshift.sh
+; click-left = ~/.config/polybar/redshift-toggle.sh
+
+; [module/mpm]
+; type = custom/ipc
+; hook-0 = ~/.config/polybar/mpm.sh
+; initial = 1
+; format-prefix = "MPM "
+; format-prefix-foreground = ${colors.foreground-alt}
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "CPU "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %percentage%%
+
+[module/memory]
+type = internal/memory
+interval = 3
+format-prefix = "MEM "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %percentage_used%%
+
+[module/wlan]
+type = internal/network
+interface = wlp3s0
+interval = 3
+
+format-connected = "<label-connected> "
+format-connected-prefix = "  "
+format-connected-underline = ${colors.accent-light}
+
+label-connected = %essid%
+label-disconnected =  WLAN
+label-disconnected-foreground = ${colors.foreground-alt}
+
+[module/date]
+type = internal/date
+interval = 5
+time = "%H:%M"
+date = "%a %d %b"
+label = "%time%, %date%"
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-background = ${colors.background}
+label-background = ${colors.background}
+
+[module/alsa]
+type = internal/volume
+
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage%%
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-foreground = ${colors.foreground-alt}
+
+label-muted =  MUTED
+format-muted-foreground = ${colors.foreground-alt}
+
+[module/battery1]
+type = internal/battery
+battery = BAT1
+adapter = ADP1
+full-at = 98
+
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.foreground-alt}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-foreground = ${colors.alert}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-foreground = ${colors.foreground}
+animation-charging-framerate = 750
+
+[module/stumpwmgroups]
+type = custom/script
+exec = ~/.config/polybar/stumpwmgroups.sh
+interval = 3
+
+[module/battery-combined-shell]
+type = custom/script
+exec = ~/.config/polybar/battery-combined-shell.sh
+interval = 10
