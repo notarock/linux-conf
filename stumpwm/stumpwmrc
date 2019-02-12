@@ -102,10 +102,10 @@
 
 
 (setf
- *maxsize-border-width*           3
- *normal-border-width*            3
+ *maxsize-border-width*           4
+ *normal-border-width*            4
  *window-border-style*            :thin
- *transient-border-width*         3
+ *transient-border-width*         4
  )
 
 (setf
@@ -153,7 +153,7 @@
 (load-module "ttf-fonts")
 
 (setf swm-gaps:*outer-gaps-size* 0)
-(setf swm-gaps:*inner-gaps-size* 3)
+(setf swm-gaps:*inner-gaps-size* 10)
 
 (swm-gaps:toggle-gaps)
 
@@ -222,10 +222,11 @@
 
 ;; (stumptray:stumptray)
 
-(define-key *top-map* (kbd "s-1") "gselect 2")
-(define-key *top-map* (kbd "s-2") "gselect 3")
-(define-key *top-map* (kbd "s-3") "gselect 4")
-(define-key *top-map* (kbd "s-4") "gselect 5")
+(define-key *top-map* (kbd "s-1") "gselect 1")
+(define-key *top-map* (kbd "s-2") "gselect 2")
+(define-key *top-map* (kbd "s-3") "gselect 3")
+(define-key *top-map* (kbd "s-4") "gselect 4")
+(define-key *top-map* (kbd "s-5") "gselect 5")
 (define-key *top-map* (kbd "s-9") "gselect 6")
 (define-key *top-map* (kbd "s-0") "vgroups")
 
@@ -253,10 +254,10 @@
 
 
 ;; DEFAUT = 1
-(gnewbg "WEB") ;; 2
 (gnewbg "EMACS") ;; 2
 (gnewbg "TERM") ;; 3
-(gnewbg-float "FLOAT") ;; 4
+(gnewbg "MISC") ;; 4
+(gnewbg-float "FLOAT") ;; 5
 (gnewbg "MAIL") ;; 5
 
 (define-key *top-map* (kbd "s-m") "gmove")
@@ -277,6 +278,7 @@
                    (display-text (cond ((string-equal name "WEB") "   WEB ")
                                        ((string-equal name "EMACS") "   EMACS ")
                                        ((string-equal name "TERM") "   TERM ")
+                                       ((string-equal name "MISC") "   MISC ")
                                        ((string-equal name "FLOAT") "   FLOAT ")
                                        ((string-equal name "MAIL") "  ✉ MAIL ")
                                        (t (concat "   " name "  ")))))
@@ -287,3 +289,10 @@
           (sort (screen-groups (current-screen)) #'< :key #'group-number))))
 
 ;;; config ends here
+
+;; Update polybar group indicator
+(add-hook *new-window-hook* (lambda (win) (run-shell-command "polybar-msg hook stumpwmgroups 1")))
+(add-hook *destroy-window-hook* (lambda (win) (run-shell-command "polybar-msg hook stumpwmgroups 1")))
+(add-hook *focus-group-hook* (lambda (win lastw) (run-shell-command "polybar-msg hook stumpwmgroups 1")))
+
+

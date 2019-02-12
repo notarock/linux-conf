@@ -1,5 +1,5 @@
 [global]
-     font = Terminus (TTF) Medium 11
+     font = Iosevka 12
      markup = yes
      format = "<b>%s</b>\n%b"
      sort = yes
@@ -33,18 +33,19 @@
  
 [urgency_low]
      background = "#282828"
-     foreground = "#585858"
+     foreground = "#d8d8d8"
+     frame_color = "#a1b56c"
      timeout = 3
  
 [urgency_normal]
      background = "#383838"
      foreground = "#d8d8d8"
-     frame_color = "#f7ca88"
-     timeout = 3
+     frame_color = "#86c1b9"
+     timeout = 5
  
 [urgency_critical]
      background = "#ab4642"
      foreground = "#e8e8e8"
      frame_color = "#dc9656"
-     timeout = 5
+     timeout = 8
 

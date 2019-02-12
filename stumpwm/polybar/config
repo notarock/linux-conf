@@ -224,9 +224,9 @@ animation-charging-foreground = ${colors.foreground}
 animation-charging-framerate = 750
 
 [module/stumpwmgroups]
-type = custom/script
-exec = ~/.config/polybar/stumpwmgroups.sh
-interval = 3
+type = custom/ipc
+hook-0 = ~/.config/polybar/stumpwmgroups.sh
+initial = 1
 
 [module/battery-combined-shell]
 type = custom/script
