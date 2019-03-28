@@ -1,4 +1,4 @@
-[options]
+[GIT_ASKPASSoptions]
 scroll_on_output = false
 scroll_on_keystroke = true
 audible_bell = false
@@ -7,7 +7,7 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-font = Iosevka 10
+font = Iosevka Light 11
 scrollback_lines = 10000
 search_wrap = true
 icon_name = utilities-terminal

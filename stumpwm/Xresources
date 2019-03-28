@@ -1,7 +1,7 @@
 Xft.dpi: 144
 Xcursor.size: 48
 
-URxvt.font: xft: Input Mono Compressed:size=12
+URxvt.font: xft: iosevka light:size=12
 ! URxvt.font: xft:terminus (TTF):size=11
 URxvt.scrollBar: false
 

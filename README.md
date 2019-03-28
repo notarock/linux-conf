@@ -1,24 +1,15 @@
 # Linux dotfiles
 
-This is my current configuration as of Septembre 2018
-
-### How to install
-
-To get all the programs that I use frequently, just cat the dependencies list into
- your package manager's `install` command like this:
-
-``` bash
-# Arch-based distributions
-sudo pacman -S $(cat dependencies)
-
-# Debian-based distributions
-sudo apt-get install $(cat dependencies)
-```
-
-you get the idea ;).
-
+This is my current configuration as of March 2019
 
 ## Screenshot (Last updated december 2018)
+
+#### December 2018
+
+![march2019.png](https://raw.githubusercontent.com/notarock/linux-conf/master/screenshot/march2019.png)
+
+<details>
+  <summary>Older screenshot</summary>
 
 #### December 2018
 
@@ -28,8 +19,6 @@ you get the idea ;).
 
 ![sept2018.png](https://raw.githubusercontent.com/notarock/linux-conf/master/screenshot/sept2018.png)
 
-<details>
-  <summary>Older screenshot</summary>
 
 #### June 2018
 

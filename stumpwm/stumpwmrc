@@ -30,7 +30,7 @@
 (set-prefix-key (kbd "s-c"))
 
 ;;;; Default terminal emulator
-(setq *terminal* "termite")
+(setq *terminal* "urxvt")
 
 (defcommand mailspring () ()
   "Run-or-Raise Mailspring"
@@ -42,7 +42,7 @@
 
 (defcommand emacs () ()
   "Run-or-Raise Emacs"
-  (run-or-raise "emacs " '(:class "Emacs")))
+  (run-shell-command "emacsclient -c -e '(switch-to-buffer \"*spacemacs*\")'"))
 
 
 (define-frame-preference "MAIL"
@@ -120,7 +120,7 @@
 (define-key *top-map* (kbd "s-o") "hsplit")
 (define-key *top-map* (kbd "s-r") "remove")
 
-(define-key *top-map* (kbd "s-RET") "run-shell-command exec termite")
+(define-key *top-map* (kbd "s-RET") "run-shell-command exec urxvt")
 (define-key *top-map* (kbd "s-d") "run-shell-command rofi -theme ~/src/base16-rofi/themes/base16-default-dark.rasi -show run")
 
 (define-key *top-map* (kbd "s-f") "fullscreen")
@@ -131,11 +131,11 @@
 (set-module-dir
  (pathname-as-directory (concat (getenv "HOME") "/src/stumpwm-contrib/util")))
 
-(require :swank)
-(swank-loader:init)
-(swank:create-server :port 4004
-                     :style swank:*communication-style*
-                     :dont-close t)
+;; (require :swank)
+;; (swank-loader:init)
+;; (swank:create-server :port 4004
+;;                      :style swank:*communication-style*
+;;                      :dont-close t)
 
 (run-shell-command "polybar screen")
 ;; (run-shell-command "volumeicon")
@@ -146,16 +146,17 @@
 (run-shell-command "compton")
 
 (run-shell-command "xset b off")
+(run-shell-command "emacs --daemon")
 
-(load-module "swm-gaps")
+;; (load-module "swm-gaps")
 ;; (load-module "stumptray")
 (load-module "end-session")
 (load-module "ttf-fonts")
 
-(setf swm-gaps:*outer-gaps-size* 0)
-(setf swm-gaps:*inner-gaps-size* 10)
+;; (setf swm-gaps:*outer-gaps-size* 0)
+;; (setf swm-gaps:*inner-gaps-size* 0)
 
-(swm-gaps:toggle-gaps)
+;; (swm-gaps:toggle-gaps)
 
 ;; turn on/off the mode line for the current head only.
 ;; (stumpwm:toggle-mode-line (stumpwm:current-screen)
