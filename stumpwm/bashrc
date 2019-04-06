@@ -292,3 +292,7 @@ export EDITOR=/usr/bin/vim
 export HISTSIZE=""
 
 alias em="emacsclient -nw $@"
+
+eval $(thefuck --alias)
+
+export GOPATH=$HOME/go
