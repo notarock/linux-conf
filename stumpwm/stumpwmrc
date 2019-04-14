@@ -1,6 +1,18 @@
 ; -*- mode: lisp; -*-
-
-;; Copyright © 2018, 2018 Roch D'amour
+;                                   _            ,__ __
+;    ()                            (_|   |   |_//|  |  |
+;    /\_|_         _  _  _     _     |   |   |   |  |  |
+;   /  \|  |   |  / |/ |/ |  |/ \_   |   |   |   |  |  |
+;  /(__/|_/ \_/|_/  |  |  |_/|__/     \_/ \_/    |  |  |_/
+;                           /|
+;                           \|
+;    __
+;   / ()  _        |\ o  _,
+;  |     / \_/|/|  |/ | / |
+;   \___/\_/  | |_/|_/|/\/|/
+;                  |)    (|
+;
+;; Copyright © 2018, 2019 Roch D'amour
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,7 +36,6 @@
 
 
 ;;; Mouse focus policy
-(setf *mouse-focus-policy* :sloppy)
 
 ;;;; change the prefix key to something else
 (set-prefix-key (kbd "s-c"))
@@ -32,9 +43,10 @@
 ;;;; Default terminal emulator
 (setq *terminal* "urxvt")
 
-(defcommand mailspring () ()
-  "Run-or-Raise Mailspring"
-  (run-or-raise "mailspring" '(:class "Mailspring")))
+;;;; Most used programs
+(defcommand thunderbird () ()
+  "Run-or-Raise Thunderbird"
+  (run-or-raise "thunderbird" '(:class "Thunderbird")))
 
 (defcommand firefox () ()
   "Run-or-Raise Firefox"
@@ -44,197 +56,156 @@
   "Run-or-Raise Emacs"
   (run-shell-command "emacsclient -c -e '(switch-to-buffer \"*spacemacs*\")'"))
 
+(define-frame-preference "Default"
+  ;; frame raise lock (lock AND raise == jumpto)
+  (0 t   t :class "Firefox"))
 
 (define-frame-preference "MAIL"
   ;; frame raise lock (lock AND raise == jumpto)
-  (0 t   t :class "Mailspring"))
+  (0 t   t :class "Thunderbird"))
 
 (define-frame-preference "EMACS"
   ;; frame raise lock (lock AND raise == jumpto)
   (0 t   t :class "Emacs"))
 
-
 (define-key *root-map* (kbd "f")            "firefox")
-(define-key *root-map* (kbd "C-f")            "firefox")
-(define-key *root-map* (kbd "t")            "mailspring")
-(define-key *root-map* (kbd "C-t")            "mailspring")
+(define-key *root-map* (kbd "t")            "thunderbird")
+(define-key *root-map* (kbd "p")            "pass-copy")
 
-
-;; Frames
+;; Frames navigation
 (loop for (vi-key name) in '(("k" "up")
                              ("j" "down")
                              ("h" "left")
                              ("l" "right"))
-   do (let ((key-combo (format nil "s-~A" vi-key))
-            (shifted-key-combo (format nil "s-~A" (string-upcase vi-key))))
-        (define-key *top-map* (kbd key-combo)
-          (format nil "move-focus ~A" name))
-        (define-key *top-map* (kbd shifted-key-combo)
-          (format nil "move-window ~A" name))))
+      do (let ((key-combo (format nil "s-~A" vi-key))
+               (shifted-key-combo (format nil "s-~A" (string-upcase vi-key))))
+           (define-key *top-map* (kbd key-combo)
+             (format nil "move-focus ~A" name))
+           (define-key *top-map* (kbd shifted-key-combo)
+             (format nil "move-window ~A" name))))
 
-
-;;;; Default Browser
-(setq *browser* "firefox")
-
-(Setf *startup-message*
-      "Get shit done.")
-
-(setf *colors* (list "#383838"      ; 0 black
-                     "#ab4642"      ; 1 Red
-                     "#a1b56c"      ; 2 Green
-                     "#f7ca88"      ; 3 Yellow
-                     "#7cafc2"      ; 4 Blue
-                     "#ba8baf"      ; 5 Magenta
-                     "#86c1b9"      ; 6 Cyan
-                     "#f8f8f8"      ; 7 White
-                     "#585858"      ; 8 Gray
-                     "#181818"))    ; 9 bg
-
-;; (setf
-;;  *mode-line-background-color* (nth 9 *colors*))
-
+;; Base16-summerfruit
+(setf *colors* (list "#202020"      ; 0 black
+                     "#ff0086"      ; 1 Red
+                     "#00c918"      ; 2 Green
+                     "#aba800"      ; 3 Yellow
+                     "#3777e6"      ; 4 Blue
+                     "#ad00a1"      ; 5 Magenta
+                     "#1faaaa"      ; 6 Cyan
+                     "#ffffff"      ; 7 White
+                     "#505050"      ; 8 Gray
+                     "#fd8900"      ; 9 orange
+                     "#151515"))    ; 10 bg
 
 (set-fg-color         (nth 7 *colors*))
-(set-bg-color         (nth 9 *colors*))
-(set-border-color     (nth 6 *colors*))
-(set-focus-color      (nth 1 *colors* ))
-(set-unfocus-color    (nth 9 *colors* ))
+(set-bg-color         (nth 10 *colors*))
+(set-border-color     (nth 2 *colors*))
+(set-focus-color      (nth 6 *colors* ))
+(set-unfocus-color    (nth 10 *colors* ))
+(set-float-focus-color      (nth 6 *colors* ))
+(set-float-unfocus-color    (nth 10 *colors* ))
 
-
+;; Configuration values
 (setf
- *maxsize-border-width*           4
- *normal-border-width*            4
- *window-border-style*            :thin
- *transient-border-width*         4
+   *startup-message                 "Get shit done."
+   ;; Mouse settings
+   *mouse-focus-policy*             :sloppy
+   *grab-pointer-foreground* (xlib:make-color :red 1 :green 0 :blue 0.5)
+   *grab-pointer-character* 88
+   *grab-pointer-character-mask* 88
+   ;; Shell
+   *shell-program* (stumpwm:getenv "SHELL")
+   ;; Border settings
+   *maxsize-border-width*           1
+   *normal-border-width*            1
+   *transient-border-width*         1
+   *window-border-style*            :thin
+   *message-window-gravity*         :center
+   *timeout-wait*                   10
+   *input-window-gravity*           :center
  )
 
-(setf
- *message-window-gravity*         :center
- *timeout-wait*                   10
- *input-window-gravity*           :center
- )
-
+(update-color-map (current-screen))
 
 ;;;; top-map splits
 (define-key *top-map* (kbd "s-u") "vsplit")
 (define-key *top-map* (kbd "s-o") "hsplit")
 (define-key *top-map* (kbd "s-r") "remove")
-
-(define-key *top-map* (kbd "s-RET") "run-shell-command exec urxvt")
-(define-key *top-map* (kbd "s-d") "run-shell-command rofi -theme ~/src/base16-rofi/themes/base16-default-dark.rasi -show run")
-
 (define-key *top-map* (kbd "s-f") "fullscreen")
+;; Quit menu
+(define-key *top-map* (kbd "s-)") "end-session")
 
-(in-package :stumpwm)
-(load "/home/notarock/src/slime/swank-loader.lisp")
+;; Launcher && terminal
+(define-key *top-map* (kbd "s-RET") (concat "run-shell-command exec " *terminal*))
+(define-key *top-map* (kbd "s-d") "run-shell-command rofi -show run")
 
-(set-module-dir
- (pathname-as-directory (concat (getenv "HOME") "/src/stumpwm-contrib/util")))
-
+;; Slime server
+;; (in-package :stumpwm)
+;; (load (concat (getenv "HOME") "/src/builds/slime/swank-loader.lisp"))
 ;; (require :swank)
 ;; (swank-loader:init)
 ;; (swank:create-server :port 4004
 ;;                      :style swank:*communication-style*
 ;;                      :dont-close t)
 
-(run-shell-command "polybar screen")
-;; (run-shell-command "volumeicon")
-;; (run-shell-command "xfce4-power-manager")
+;; Stuff to run on startup
+(run-shell-command "volumeicon")
+(run-shell-command "xfce4-power-manager")
 (run-shell-command "nm-applet")
+(run-shell-command "blueman-adapter")
 (run-shell-command "blueman-applet")
+(run-shell-command "dunst")
+(run-shell-command "xrdb .Xresources")
 (run-shell-command "feh --bg-fill /home/notarock/Pictures/wallpaper/selected*")
-(run-shell-command "compton")
-
 (run-shell-command "xset b off")
 (run-shell-command "emacs --daemon")
 
-;; (load-module "swm-gaps")
-;; (load-module "stumptray")
+(set-module-dir
+ (pathname-as-directory (concat (getenv "HOME") "/src/builds/stumpwm-contrib/util")))
+
+(load-module "stumptray")
 (load-module "end-session")
+
+(load-module "pass")
+
+;; Set font
+(ql:quickload "clx-truetype")
 (load-module "ttf-fonts")
+(set-font (make-instance 'xft:font :family "DejaVu Sans Mono" :subfamily "Book" :size 12))
 
-;; (setf swm-gaps:*outer-gaps-size* 0)
-;; (setf swm-gaps:*inner-gaps-size* 0)
+;; Workspace & navigation
 
-;; (swm-gaps:toggle-gaps)
-
-;; turn on/off the mode line for the current head only.
-;; (stumpwm:toggle-mode-line (stumpwm:current-screen)
-;;                           (stumpwm:current-head))
-
-;; (defun show-ip-address ()
-;;   (let ((ip (run-shell-command "ifconfig wlp3s0 | grep 'inet ' | cut -d: -f2 | awk '{ print $2}'" t)))
-;;     (substitute #\Space #\Newline ip)))
-
-;; (defun show-battery-charge ()
-;;   (let ((raw-battery (run-shell-command "acpi | cut -d, -f2" t)))
-;;     (substitute #\Space #\Newline raw-battery)))
-
-;; (defun show-hostname ()
-;;   (let ((host-name (run-shell-command "cat /etc/hostname" t)))
-;;     (substitute #\Space #\Newline host-name)))
-
-;; (defun show-battery-state ()
-;;   (let ((raw-battery (run-shell-command "acpi | cut -d: -f2 | cut -d, -f1" t)))
-;;     (substitute #\Space #\Newline raw-battery)))
-
-;; (defun show-kernel ()
-;;   (let ((ip (run-shell-command "uname -r" t)))
-;;     (substitute #\Space #\Newline ip)))
-
-
-;; (set-module-dir
-;;  (pathname-as-directory (concat (getenv "HOME") "/src/stumpwm-contrib/modeline")))
-
-;; (load-module "disk")
-;; (load-module "wifi")
-;; (load-module "cpu")
-
-;; (load-module "mem")
-;; (load-module "battery-portable")
-
-;; Set model-line format
-;; Show time, cpu usage and network traffic in the modeline
-;; (setf *separator* "^b^1≡")
-;; (setf *screen-mode-line-format*
-;;       (list
-;;        "^b^3 [^B%n^b]"    ;; Group
-;;        " " *separator*
-;;        "^B^9 %W"           ;; Windows
-;;        " " *separator*
-;;        "^>"               ;; Other Side
-;;        *separator*
-;;        "^b^3 %c%t "      ;; CPU Info
-;;        *separator*
-;;        "^b^4 %M"
-;;        *separator*
-;;        "^b^6 %D"
-;;        *separator*
-;;        "^b^2 %I"
-;;        " " *separator*
-;;        "^b^3 %B "
-;;        *separator*
-;;        "^B^7 " '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:] " t))
-;;        " " *separator*
-;;        "^b^88        "))
-
-
-(update-color-map (current-screen))
-
-;; (stumptray:stumptray)
-
+;; DEFAUT = 1
 (define-key *top-map* (kbd "s-1") "gselect 1")
+
+(gnewbg "EMACS") ;; 2
 (define-key *top-map* (kbd "s-2") "gselect 2")
+
+(gnewbg "TERM") ;; 3
 (define-key *top-map* (kbd "s-3") "gselect 3")
+
+(gnewbg "MISC") ;; 4
 (define-key *top-map* (kbd "s-4") "gselect 4")
+
+(gnewbg-float "FLOAT") ;; 5
 (define-key *top-map* (kbd "s-5") "gselect 5")
-(define-key *top-map* (kbd "s-9") "gselect 6")
+
+(gnewbg "MUSIC") ;; 8
+(define-key *top-map* (kbd "s-8") "gselect 6")
+
+(gnewbg "MAIL") ;; 9
+(define-key *top-map* (kbd "s-9") "gselect 7")
+
+(define-key *top-map* (kbd "s-m") "gmove")
+
+(define-key *top-map* (kbd "s--") "gprev")
+(define-key *top-map* (kbd "s-=") "gnext")
+
+;; Show where is what
 (define-key *top-map* (kbd "s-0") "vgroups")
 
-;; Quit menu
-(define-key *top-map* (kbd "s-)") "end-session")
 
-
+;; Brightness & volumes control
 (defcommand backlight-up () ()
   "Up backlight by 20"
   (run-shell-command "xbacklight + 20"))
@@ -247,53 +218,45 @@
   "Mute / Unmute volume"
   (run-shell-command "amixer set Master toggle"))
 
+(defcommand volume-up () ()
+  "Mute / Unmute volume"
+  (run-shell-command "pactl -- set-sink-volume 0 +10% && notify-send 'Volume +10'"))
+
+(defcommand volume-down () ()
+  "Mute / Unmute volume"
+  (run-shell-command "pactl -- set-sink-volume 0 -10% && notify-send 'Volume -10'"))
+
 (define-key *top-map* (kbd "XF86MonBrightnessUp") "backlight-up")
 (define-key *top-map* (kbd "XF86MonBrightnessDown") "backlight-down")
 
 (define-key *top-map* (kbd "XF86AudioMute") "volume-mute")
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "volume-up")
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "volume-down")
 
+;; Show currently pressed key sequence
+(defun show-key-seq (key seq val)
+  (message (print-key-seq (reverse seq))))
+;; (add-hook *key-press-hook* 'show-key-seq)
 
+;; Recount windows number on kill
+(stumpwm:add-hook stumpwm:*destroy-window-hook*
+                  #'(lambda (win) (stumpwm:repack-window-numbers)))
 
-;; DEFAUT = 1
-(gnewbg "EMACS") ;; 2
-(gnewbg "TERM") ;; 3
-(gnewbg "MISC") ;; 4
-(gnewbg-float "FLOAT") ;; 5
-(gnewbg "MAIL") ;; 5
+;; Web jump macro
+(defmacro make-web-jump (name prefix)
+  `(defcommand ,(intern name) (search) ((:rest ,(concatenate 'string name " search: ")))
+     (substitute #\+ #\Space search)
+     (run-shell-command (concatenate 'string ,prefix search "'"))))
 
-(define-key *top-map* (kbd "s-m") "gmove")
+;; Define a duckduckgo search in firefox
+(make-web-jump "duckduckgo" "firefox 'https://duckduckgo.com/?q=")
+(define-key *top-map* (kbd "s-s") "duckduckgo")
 
-(xft:cache-fonts)
-(set-font (make-instance 'xft:font :family "Terminus (TTF)" :subfamily "Medium" :size 16))
+;; Load mode-line configuration and activate system tray
+(load (concat (getenv "HOME") "/.config/stumpwm/mode-line.lisp"))
+(stumptray:stumptray)
 
 ;; Open mail client
-(run-or-raise "mailspring" '(:class "Mailspring"))
+(run-or-raise "thunderbird" '(:class "Thunderbird"))
 
-(defun polybar-groups ()
-  "Return string representation for polybar stumpgroups module"
-  (apply #'concatenate 'string
-         (mapcar
-          (lambda (g)
-            (let* ((name (string-upcase (group-name g)))
-                   (n-win (write-to-string (length (group-windows g))))
-                   (display-text (cond ((string-equal name "WEB") "   WEB ")
-                                       ((string-equal name "EMACS") "   EMACS ")
-                                       ((string-equal name "TERM") "   TERM ")
-                                       ((string-equal name "MISC") "   MISC ")
-                                       ((string-equal name "FLOAT") "   FLOAT ")
-                                       ((string-equal name "MAIL") "  ✉ MAIL ")
-                                       (t (concat "   " name "  ")))))
-              (if (eq g (current-group))
-                  (concat "%{F#ECEFF4 B#882E3440 u#8A9899 +u}" display-text "[" n-win "] " "%{F- B- u- -u}")
-                  (concat "%{F#8A9899}" display-text "[" n-win "] " "%{F-}"))))
-
-          (sort (screen-groups (current-screen)) #'< :key #'group-number))))
-
-;;; config ends here
-
-;; Update polybar group indicator
-(add-hook *new-window-hook* (lambda (win) (run-shell-command "polybar-msg hook stumpwmgroups 1")))
-(add-hook *destroy-window-hook* (lambda (win) (run-shell-command "polybar-msg hook stumpwmgroups 1")))
-(add-hook *focus-group-hook* (lambda (win lastw) (run-shell-command "polybar-msg hook stumpwmgroups 1")))
-
-
+;;; End of file
