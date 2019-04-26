@@ -63,7 +63,7 @@ ZSH_THEME="mh"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git docker kubectl git-extras npm node python)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,6 +119,9 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias vi="vim"
 
+
+
+
 # Cd & ls
 function cd () {
     builtin cd "$@" && ls
@@ -154,35 +157,12 @@ function wo {
         test)
             cd ~/src/
             ;;
-        jar)
-            cd ~/src/clubCedille/jardiniot
+        danya) 
+            cd ~/src/artifex/Danyas-Project
             ;;
-        ch)
-            cd ~/src/clubCedille/linux-cheminot
-            ;;
-        mir)
-            cd ~/src/clubCedille/mirrors
-            ;;
-        papi)
-            cd ~/src/clubCedille/pixicoreAPI
-            ;;
-        bp)
-            cd ~/src/notarock/BillProject
-            ;;
-        cv)
-            cd ~/src/notarock/jardiniot
-            ;;
-        gop)
-            cd ~/src/notarock/gopdater
-            ;;
-        blog)
-            cd ~/src/notarock/portfolio-ng
-            ;;
-        rs)
-            cd ~/src/notarock/random-scripts
-            ;;
-        sdots)
-            cd ~/src/notarock/sysadmin-dots
+        artik8s)
+            cd ~/src/Artifex/Artifex-Infrastructure
+            export KUBECONFIG=config/cluster/k8s-artifex-cluster-kubeconfig.yaml
             ;;
         *)
             echo $"Pas trouver de shortcut associé. Essaie 'test' "
@@ -230,3 +210,25 @@ function json {
 }
 
 alias spotify="/snap/bin/spotify --force-device-scale-factor=1.5"
+
+randpw(){ 
+    < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-64};echo;
+}
+
+
+alias loadk8s="export KUBECONFIG=/home/notarock/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml"
+
+
+
+
+bindkey -v
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  alias nvm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && nvm'
+  alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
+  alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
+fi

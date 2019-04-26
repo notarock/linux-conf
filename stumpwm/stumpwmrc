@@ -41,7 +41,7 @@
 (set-prefix-key (kbd "s-c"))
 
 ;;;; Default terminal emulator
-(setq *terminal* "urxvt")
+(setq *terminal* "urxvtc")
 
 ;;;; Most used programs
 (defcommand thunderbird () ()
@@ -54,7 +54,7 @@
 
 (defcommand emacs () ()
   "Run-or-Raise Emacs"
-  (run-shell-command "emacsclient -c -e '(switch-to-buffer \"*spacemacs*\")'"))
+  (run-or-raise "emacs" '(:class "Emacs")))
 
 (define-frame-preference "Default"
   ;; frame raise lock (lock AND raise == jumpto)
@@ -149,6 +149,7 @@
 ;;                      :dont-close t)
 
 ;; Stuff to run on startup
+
 (run-shell-command "volumeicon")
 (run-shell-command "xfce4-power-manager")
 (run-shell-command "nm-applet")
@@ -158,12 +159,11 @@
 (run-shell-command "xrdb .Xresources")
 (run-shell-command "feh --bg-fill /home/notarock/Pictures/wallpaper/selected*")
 (run-shell-command "xset b off")
-(run-shell-command "emacs --daemon")
+(run-shell-command "urxvtd")
 
 (set-module-dir
  (pathname-as-directory (concat (getenv "HOME") "/src/builds/stumpwm-contrib/util")))
 
-(load-module "stumptray")
 (load-module "end-session")
 
 (load-module "pass")
@@ -251,6 +251,9 @@
 ;; Define a duckduckgo search in firefox
 (make-web-jump "duckduckgo" "firefox 'https://duckduckgo.com/?q=")
 (define-key *top-map* (kbd "s-s") "duckduckgo")
+
+;; Load system tray
+(load-module "stumptray")
 
 ;; Load mode-line configuration and activate system tray
 (load (concat (getenv "HOME") "/.config/stumpwm/mode-line.lisp"))
