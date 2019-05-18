@@ -42,7 +42,7 @@
                                                 ;; uses date command so time can be bold
                                                 "date +'^B%m-%d ^6*%R^b'" t)))
        *separator-right*
-       "       "                      ; free space for stumptray
+       "          "                      ; free space for stumptray
        ))
 
 (defcommand uaml () ()
