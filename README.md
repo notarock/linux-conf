@@ -1,8 +1,8 @@
 # Linux dotfiles
 
-This is my current configuration as of March 2019
+This is my current configuration as of May 2019
 
-## Screenshot (Last updated december 2018)
+## Screenshot (Last updated May 2019)
 
 #### May 2019
 
