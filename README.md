@@ -4,12 +4,17 @@ This is my current configuration as of March 2019
 
 ## Screenshot (Last updated december 2018)
 
+#### May 2019
+
+![may2019.png](https://raw.githubusercontent.com/notarock/linux-conf/master/screenshot/may2019.png)
+
+<details>
+  <summary>Older screenshot</summary>
+
 #### December 2018
 
 ![march2019.png](https://raw.githubusercontent.com/notarock/linux-conf/master/screenshot/march2019.png)
 
-<details>
-  <summary>Older screenshot</summary>
 
 #### December 2018
 
