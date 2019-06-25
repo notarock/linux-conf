@@ -39,6 +39,7 @@ This function should only modify configuration layer settings."
      javascript
      themes-megapack
      restclient
+     plantuml
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t)
      html
@@ -208,7 +209,7 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(base16-summerfruit-dark)
+   dotspacemacs-themes '(molokai)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -225,8 +226,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Iosevka Term SS08"
-                                :size 22 ;; 22 ;;fontsize
+
+  dotspacemacs-default-font '("Monoid"
+                                :size 12 ;;fontsize
                                 :weight light
                                 :width normal)
 
@@ -485,6 +487,8 @@ before packages are loaded."
   ;; Org-mode configurations
   (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
   (setq org-directory "~/org/")
+
+  (global-set-key [S-dead-grave] "`")
 
   (setq org-capture-templates
         '(("c" "Todo: CEDILLE" entry (file+headline "~/org/cedille.org" "Todo")
