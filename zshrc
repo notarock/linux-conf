@@ -9,7 +9,7 @@ export ZSH="/home/notarock/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="mh"
+ZSH_THEME="sorin"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -63,9 +63,28 @@ ZSH_THEME="mh"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker kubectl git-extras npm node python)
+plugins=(
+git 
+git-flow 
+docker 
+kubectl 
+minikube
+helm
+heroku
+git-extras 
+npm 
+node 
+python
+common-aliases
+lein
+pass
+ubuntu
+vagrant
+)
 
 source $ZSH/oh-my-zsh.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # User configuration
 
@@ -80,6 +99,8 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='vim'
 fi
+
+FILEMANAGER=ranger
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -110,17 +131,29 @@ alias df='df -h'                          # human-readable sizes
 alias more=less
 
 alias cdsrc='cd ~/src/'
-alias lt='ls -lrt'
-alias ll='ls -lart'
 
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+
 alias vi="vim"
+alias ls='lsd'
+alias vif='vim $(fzf)'
 
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls -lrt'
+alias ll='ls -lart'
 
+alias dstop='docker stop $(docker ps -a -q)'
+alias dclean='docker rm $(docker ps -a -q)'
+alias dclear='docker rmi $(docker images -q)'
 
+# Weather
+alias wttr="curl wttr.in"
+alias open="$FILEMANAGER"
 
 # Cd & ls
 function cd () {
@@ -157,12 +190,37 @@ function wo {
         test)
             cd ~/src/
             ;;
+        ime-api) 
+            alias dev="echo YEET"
+            alias test="echo YEET"
+            cd ~/src/artifex/InfluenceME-API
+            ;;
         danya) 
+            alias dev="npm run dev"
+            alias test="npm run test-local"
             cd ~/src/artifex/Danyas-Project
             ;;
-        artik8s)
-            cd ~/src/Artifex/Artifex-Infrastructure
-            export KUBECONFIG=config/cluster/k8s-artifex-cluster-kubeconfig.yaml
+        danyaf) 
+            cd ~/src/artifex/Danyas-Project-FrontEnd
+            ;;
+        motd)
+            cd ~/src/notarock/memeoftheday
+            ;;
+        np-api) 
+            alias dev="npm run dev"
+            alias test="npm run test-local"
+            cd ~/src/artifex/Nightplanner-API
+            ;;
+        ck8s)
+            cd  ~/src/clubCedille/cloud-sre
+            export KUBECONFIG=~/src/clubCedille/cloud-sre/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
+            ;;
+        k8s)
+            cd ~/src/artifex/Artifex-Infrastructure
+            export KUBECONFIG=~/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
+            ;;
+        crabe)
+            cd ~/src/clubCedille/crabe-inventaire
             ;;
         *)
             echo $"Pas trouver de shortcut associé. Essaie 'test' "
@@ -218,12 +276,7 @@ randpw(){
 
 alias loadk8s="export KUBECONFIG=/home/notarock/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml"
 
-
-
-
 bindkey -v
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if [ -s "$HOME/.nvm/nvm.sh" ]; then
   export NVM_DIR="$HOME/.nvm"
@@ -232,3 +285,35 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
   alias node='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && node'
   alias npm='unalias nvm node npm && . "$NVM_DIR"/nvm.sh && npm'
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/notarock/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/notarock/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/notarock/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/notarock/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+bindkey "^R" history-incremental-search-backward
+
+function kube {
+   case "$1" in
+     local)
+         export KUBECONFIG=~/.kube/config
+         ;;
+     prod)
+         export KUBECONFIG=~/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
+         ;;
+     *)
+         echo "Utilisation: $0 {local|prod}"
+         ;;
+   esac
+}
+
+[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
+
+HISTFILE=~/.zsh_history
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
+source /home/notarock/.zshrc-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
+
