@@ -244,14 +244,14 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("Iosevka Term SS10"
-                               :size 24 ;;16 or 24 ;; fontsize
-                               :weight normal
+   dotspacemacs-default-font '("Pragmata Pro Mono"
+                               :size 20 ;;16 or 24 ;; fontsize
+                               :weight Regular
                                :width normal)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
-
+   
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
    ;; (default "SPC")
    dotspacemacs-emacs-command-key "SPC"
@@ -573,6 +573,8 @@ before packages are loaded."
   (spacemacs/toggle-highlight-long-lines-globally)
 
   (global-set-key (kbd "<C-tab>") 'helm-yas-complete)
+
+  (setq-default line-spacing 5)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

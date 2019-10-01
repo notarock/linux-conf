@@ -1,7 +1,8 @@
-Xft.dpi: 144
-Xcursor.size: 48
+Xft.dpi: 144 
+Xcursor.size: 64
+Xcursor.theme: Yaru
 
-URxvt.font: xft: iosevka term SS08 light:size=14:minspace=False, xft:DejaVu Sans:pixelsize=16
+URxvt.font: xft: Pragmata Pro Mono:size=9
 URxvt.scrollBar: false
 Rxvt.perl-ext-common: font-size 
 
