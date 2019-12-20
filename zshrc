@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/snap:$PATH
+export PATH=$HOME/.emacs.d/bin/:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/notarock/.oh-my-zsh"
@@ -9,7 +10,7 @@ export ZSH="/home/notarock/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="sorin"
+ZSH_THEME="mh"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -75,7 +76,7 @@ git-extras
 npm 
 node 
 python
-common-aliases
+# common-aliases
 lein
 pass
 ubuntu
@@ -95,9 +96,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vi'
+  EDITOR='vi'
 else
-  export EDITOR='vim'
+  EDITOR='vim'
 fi
 
 FILEMANAGER=ranger
@@ -138,7 +139,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 alias vi="vim"
-alias ls='lsd'
+# alias ls='lsd'
 alias vif='vim $(fzf)'
 
 alias l='ls -l'
@@ -151,9 +152,16 @@ alias dstop='docker stop $(docker ps -a -q)'
 alias dclean='docker rm $(docker ps -a -q)'
 alias dclear='docker rmi $(docker images -q)'
 
+alias open="$FILEMANAGER"
+alias nixc="sudo $EDITOR /etc/nixos/configuration.nix"
+alias nbs="sudo nixos-rebuild switch"
+
 # Weather
 alias wttr="curl wttr.in"
-alias open="$FILEMANAGER"
+
+# Kube
+alias k="kubectl"
+
 
 # Cd & ls
 function cd () {
@@ -220,7 +228,7 @@ function wo {
             export KUBECONFIG=~/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
             ;;
         crabe)
-            cd ~/src/clubCedille/crabe-inventaire
+            cd ~/src/cedille/crabe-inventaire
             ;;
         *)
             echo $"Pas trouver de shortcut associé. Essaie 'test' "
@@ -276,8 +284,6 @@ randpw(){
 
 alias loadk8s="export KUBECONFIG=/home/notarock/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml"
 
-bindkey -v
-
 if [ -s "$HOME/.nvm/nvm.sh" ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
@@ -291,8 +297,6 @@ if [ -f '/home/notarock/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/hom
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/notarock/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/notarock/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-bindkey "^R" history-incremental-search-backward
 
 function kube {
    case "$1" in
@@ -313,7 +317,7 @@ function kube {
 HISTFILE=~/.zsh_history
 HISTSIZE=999999999
 SAVEHIST=$HISTSIZE
-source /home/notarock/.zshrc-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /home/notarock/.zshrc-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-
-
+set -o emacs
+bindkey -e # for emacs
