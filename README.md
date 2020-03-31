@@ -2,6 +2,12 @@
 
 This is my current configuration as of May 2019
 
+### Loading gnome settings
+
+``` sh
+dconf load /org/gnome/desktop/ < gnome-desktop-backup
+```
+
 ## Screenshot (Last updated May 2019)
 
 #### May 2019
