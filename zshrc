@@ -192,49 +192,6 @@ ex ()
     fi
 }
 
-# Deplacement rapide
-function wo {
-    case "$1" in
-        test)
-            cd ~/src/
-            ;;
-        ime-api) 
-            alias dev="echo YEET"
-            alias test="echo YEET"
-            cd ~/src/artifex/InfluenceME-API
-            ;;
-        danya) 
-            alias dev="npm run dev"
-            alias test="npm run test-local"
-            cd ~/src/artifex/Danyas-Project
-            ;;
-        danyaf) 
-            cd ~/src/artifex/Danyas-Project-FrontEnd
-            ;;
-        motd)
-            cd ~/src/notarock/memeoftheday
-            ;;
-        np-api) 
-            alias dev="npm run dev"
-            alias test="npm run test-local"
-            cd ~/src/artifex/Nightplanner-API
-            ;;
-        ck8s)
-            cd  ~/src/clubCedille/cloud-sre
-            export KUBECONFIG=~/src/clubCedille/cloud-sre/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
-            ;;
-        k8s)
-            cd ~/src/artifex/Artifex-Infrastructure
-            export KUBECONFIG=~/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
-            ;;
-        crabe)
-            cd ~/src/cedille/crabe-inventaire
-            ;;
-        *)
-            echo $"Pas trouver de shortcut associé. Essaie 'test' "
-    esac
-}
-
 # Indente JSON
 function json {
     indent=''
@@ -282,8 +239,6 @@ randpw(){
 }
 
 
-alias loadk8s="export KUBECONFIG=/home/notarock/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml"
-
 if [ -s "$HOME/.nvm/nvm.sh" ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
@@ -297,20 +252,6 @@ if [ -f '/home/notarock/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/hom
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/notarock/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/notarock/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-function kube {
-   case "$1" in
-     local)
-         export KUBECONFIG=~/.kube/config
-         ;;
-     prod)
-         export KUBECONFIG=~/src/artifex/Artifex-Infrastructure/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
-         ;;
-     *)
-         echo "Utilisation: $0 {local|prod}"
-         ;;
-   esac
-}
 
 [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
 
